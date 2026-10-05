@@ -1,0 +1,55 @@
+# Default sensor configuration. Copy and override per environment.
+window:
+  size_seconds: 60
+  slide_seconds: 30
+  min_queries: 5
+
+rules:
+  enabled: true
+  alert_threshold: 0.55
+  weights:
+    entropy: 0.14
+    longest_label: 0.12
+    fqdn_length: 0.08
+    encoding_likeness: 0.12
+    ngram_anomaly: 0.10
+    unique_subdomains: 0.14
+    nxdomain_ratio: 0.08
+    txt_null_ratio: 0.08
+    query_rate: 0.07
+    unpopular: 0.07
+  thresholds:
+    entropy_high: 3.5
+    longest_label_high: 25
+    fqdn_length_high: 80
+    encoding_likeness_high: 0.45
+    ngram_anomaly_high: 0.55
+    unique_subdomain_ratio_high: 0.6
+    nxdomain_ratio_high: 0.35
+    txt_null_ratio_high: 0.25
+    queries_per_minute_high: 40
+    unpopular_ratio_high: 0.7
+
+ml:
+  enabled: true
+  backend: random_forest  # random_forest | xgboost
+  model_path: data/models/dns_exfil_rf.joblib
+  alert_threshold: 0.5
+
+reputation:
+  tranco_path: data/tranco_sample.txt
+
+ngram:
+  corpus_path: data/legitimate_domains.txt
+  n: 3
+
+storage:
+  sqlite_path: data/detections.db
+
+capture:
+  bpf_filter: "udp port 53 or tcp port 53"
+  batch_size: 500
+
+siem:
+  format: cef  # cef | syslog
+  product: dns-exfil-detect

@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dns-exfil-detect"
+version = "1.0.0"
+description = "Defensive DNS tunneling / exfiltration detection for SOC and network sensors"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "DNS Exfil Detect" }]
+keywords = ["dns", "exfiltration", "detection", "security", "soc"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+]
+dependencies = [
+  "scapy>=2.5.0",
+  "PyYAML>=6.0",
+  "rich>=13.0",
+  "typer>=0.12.0",
+  "scikit-learn>=1.3.0",
+  "numpy>=1.24.0",
+  "pandas>=2.0.0",
+  "joblib>=1.3.0",
+  "streamlit>=1.28.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4.0", "pytest-cov>=4.1.0"]
+xgboost = ["xgboost>=2.0.0"]
+pyshark = ["pyshark>=0.6.0"]
+
+[project.scripts]
+dns-exfil-detect = "dns_exfil_detect.cli.main:app"
+
+[project.urls]
+Homepage = "https://github.com/example/dns-exfil-detect"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dns_exfil_detect = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
